@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "100-days-of-code"
+version = "0.1.0"
+description = "Projeto para ministrar as aulas do curso '100 Days of Code: The Complete Python Pro Bootcamp for 2023'"
+authors = ["Daniel L. Alves <daniel.leonssio@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
