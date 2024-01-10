@@ -1,5 +1,11 @@
 # Para a execução desse script só foram utilizadas funções que foram apresentadas até o dia atual.
 
+'''
+Gerador de senhas
+
+Neste script você poderá gerar uma senha através de "inputs" fornecidos.
+'''
+
 from random import choice, randint
 
 print('Bem vindo ao gerador de senhas.')
@@ -13,35 +19,35 @@ letras_maiusculas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
 numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 simbolos_list = ['!', '#', '$', '%', '&', "'", '(', ')', '*', '+', '-', '/', ':', ';', '<', '=', '>', '@', '[', ']', '^', '_']
 
-all_letters = []
+todas_as_letras = []
 
 for i in [letras_maiusculas, letras_minusculas]:
-    all_letters.extend(i)
+    todas_as_letras.extend(i)
 
-password = ''
+senha = ''
 
 for i in range(letras):
-    password += choice(all_letters)
+    senha += choice(todas_as_letras)
         
 for i in range(num):
-    password += choice(numeros)
+    senha += choice(numeros)
             
 for i in range(simbolos):
-    password += choice(simbolos_list)
+    senha += choice(simbolos_list)
 
 
-len_password = (letras+simbolos+num)
-random_sequence = []
+len_senha = (letras+simbolos+num)
+sequencia_aleatoria = []
 
 for i in range(4000): # Definindo um range "grande" para que seja possível preencher a random_sequence por completo.
-    r = randint(0, len_password-1)
-    if len(random_sequence) != (len_password):
-        if r not in random_sequence:
-            random_sequence.append(r)
+    r = randint(0, len_senha-1)
+    if len(sequencia_aleatoria) != (len_senha):
+        if r not in sequencia_aleatoria:
+            sequencia_aleatoria.append(r)
 
-random_order_password = ''
+senha_com_ordem_aleatoria = ''
 
-for i in random_sequence:
-    random_order_password += password[i]
+for i in sequencia_aleatoria:
+    senha_com_ordem_aleatoria += senha[i]
 
-print(random_order_password)
+print(senha_com_ordem_aleatoria)
