@@ -34,3 +34,6 @@ def mostra_cartas():
     cartas_jogador, cartas_maquina = seleciona_cartas()
     print(f'Suas cartas são: {cartas_jogador[0]}, {cartas_jogador[1]}')
     print(f'A primeira carta da máquina é: {cartas_maquina[0]}')
+
+def test():
+    return None
