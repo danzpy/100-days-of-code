@@ -10,7 +10,9 @@ def blackjack():
         print('Aplicação encerrada.')
     elif inicio == 's':
         print(logo)
-        functions.mostra_cartas()
+        cartas_jogador, cartas_maquina, rodada = functions.seleciona_cartas()
+        functions.mostra_cartas(cartas_jogador, cartas_maquina, rodada)
+        functions.continua_jogando(cartas_jogador, cartas_maquina, rodada)
     else:
         print('Opção inválida.')
         sleep(2)
