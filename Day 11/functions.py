@@ -1,5 +1,6 @@
 from random import choice
 
+
 def seleciona_cartas():
     '''
     Seleciona cartas de forma "randômica" para os jogadores.
@@ -25,15 +26,20 @@ def seleciona_cartas():
             cartas_jogador.append(choice(cartas))
             cartas_maquina.append(choice(cartas))
 
-        
+    return cartas_jogador, cartas_maquina, rodada
 
-    return cartas_jogador, cartas_maquina
+def continua_jogando(rodada):
 
+    continua = True
 
-def mostra_cartas():
+    opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.')
+    if opcao == 's':
+        rodada += 1
+    
+    return rodada, continua
+
+def mostra_cartas(rodada):
     cartas_jogador, cartas_maquina = seleciona_cartas()
-    print(f'Suas cartas são: {cartas_jogador[0]}, {cartas_jogador[1]}')
-    print(f'A primeira carta da máquina é: {cartas_maquina[0]}')
-
-def test():
-    return None
+    if rodada == 1:
+        print(f'Suas cartas são: {cartas_jogador[0]}, {cartas_jogador[1]}')
+        print(f'A primeira carta da máquina é: {cartas_maquina[0]}')
