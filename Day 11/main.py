@@ -4,9 +4,12 @@ from art import logo
 import functions
 
 def blackjack():
-
-    cartas_jogador = []
-    cartas_maquina = []
+    '''
+    Nesse jogo cada carta possui um valor específico,
+    e de acordo com a soma das cartas na mão do jogador
+    é verificado a necessidade de pedir outra carta.
+    Isso ocorre até que sua soma chegue a 21 pontos.
+    '''
 
     inicio = input('Você gostaria de iniciar uma partida de Blackjack agora? Digite "s" para iniciar, ou "n" para encerrar a aplicação.\n').lower()
 
