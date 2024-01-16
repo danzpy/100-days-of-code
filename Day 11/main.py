@@ -17,7 +17,7 @@ def blackjack():
         print('Aplicação encerrada.')
     elif inicio == 's':
         print(logo)
-        functions.armazena_cartas(inicio=True)
+        functions.armazena_cartas(inicio=True, final=False)
         functions.mostra_cartas(functions.cartas_jogador, functions.cartas_maquina, inicio=True)
         functions.continua_jogando(functions.cartas_jogador, functions.cartas_maquina)
     else:
