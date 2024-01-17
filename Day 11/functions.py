@@ -7,11 +7,12 @@ def armazena_cartas(cartas_jogador, cartas_maquina, inicio, final):
     '''
     Armazena as cartas que foram selecionadas a uma
     lista. Se caso for a primeira rodada, duas cartas
-    serão selecionadas para o jogador e uma para a máquina.
-    Posteriormente, serão selecionadas apenas uma carta.
+    serão selecionadas ambos os jogadores.
+    Posteriormente, serão selecionadas apenas uma carta para o jogador
+    principal.
 
     Caso o jogador defina não receber mais cartas, a máquina receberá
-    mais uma.
+    mais cartas até que a somatória da mão seja menor que 17 pontos.
     '''
 
     if inicio:
@@ -40,8 +41,10 @@ def seleciona_cartas():
 def mostra_cartas(cartas_jogador, cartas_maquina, final=False):
     '''
     Imprime as cartas que estão nas mãos dos jogadores.
-    Se caso for a primeira rodada, a máquina receberá apenas
-    uma carta. Nas demais rodadas, mais cartas serão apresentadas.
+    Se caso for a primeira rodada, será impressa apenas a
+    primeira carta da mão da máquina.
+    Quando o jogador principal decidir não receber mais cartas,
+    a mão da máquina será exibida.
 
     '''
 
@@ -54,6 +57,10 @@ def mostra_cartas(cartas_jogador, cartas_maquina, final=False):
 
 
 def checa_pontos(cartas_jogador, cartas_maquina):
+    '''
+    Checa as possibilidades de vitória ou derrota dos jogadores.
+    '''
+
     if sum(cartas_jogador) == 21:
         print(f'Parabéns, Você ganhou! Você possui {sum(cartas_jogador)}, enquanto a máquina possui apenas {sum(cartas_maquina)}.')
     elif sum(cartas_maquina) == 21:
@@ -82,23 +89,19 @@ def continua_jogando(cartas_jogador, cartas_maquina):
         armazena_cartas(cartas_jogador, cartas_maquina, inicio=False, final=False)
         mostra_cartas(cartas_jogador, cartas_maquina, final=False)
         if sum(cartas_jogador) == 21 or sum(cartas_maquina) == 21:
-            checa_pontos()
             acaba_jogo()
             break
         elif sum(cartas_jogador) > 21 or sum(cartas_maquina) > 21:
-            checa_pontos(cartas_jogador, cartas_maquina)
             acaba_jogo()
             break
         elif sum(cartas_maquina) < 21 or sum(cartas_jogador) < 21:
             opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.\n')
         else:
-            checa_pontos()
             acaba_jogo()
             break
     if opcao == 'n':
         armazena_cartas(cartas_jogador, cartas_maquina, inicio=False, final=True)
         mostra_cartas(cartas_jogador, cartas_maquina, final=True)
-        checa_pontos(cartas_jogador, cartas_maquina)
         acaba_jogo()
 
 
@@ -108,7 +111,7 @@ def acaba_jogo():
     será impresso. Assim como o valor acumulado em ambas
     as mãos.
     '''
-
+    checa_pontos(cartas_jogador, cartas_maquina)
     agradecimento = print('Obrigado por jogar Blackjack!')
 
     return agradecimento
