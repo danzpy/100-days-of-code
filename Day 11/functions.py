@@ -3,7 +3,7 @@ from random import choice
 cartas_jogador = []
 cartas_maquina = []
 
-def armazena_cartas(inicio, final):
+def armazena_cartas(cartas_jogador, cartas_maquina, inicio, final):
     '''
     Armazena as cartas que foram selecionadas a uma
     lista. Se caso for a primeira rodada, duas cartas
@@ -14,14 +14,14 @@ def armazena_cartas(inicio, final):
     mais uma.
     '''
 
-    if inicio and not final:
+    if inicio:
         for i in range(2):
             cartas_jogador.append(seleciona_cartas())
             cartas_maquina.append(seleciona_cartas())
     elif final:
-        cartas_maquina.append(seleciona_cartas())
+        while sum(cartas_maquina) < 17:
+            cartas_maquina.append(seleciona_cartas())
     else:
-        cartas_maquina.append(seleciona_cartas())
         cartas_jogador.append(seleciona_cartas())
             
 def seleciona_cartas():
@@ -37,7 +37,7 @@ def seleciona_cartas():
 
     return carta_selecionada
 
-def mostra_cartas(cartas_jogador, cartas_maquina, inicio=True):
+def mostra_cartas(cartas_jogador, cartas_maquina, final=False):
     '''
     Imprime as cartas que estão nas mãos dos jogadores.
     Se caso for a primeira rodada, a máquina receberá apenas
@@ -45,7 +45,7 @@ def mostra_cartas(cartas_jogador, cartas_maquina, inicio=True):
 
     '''
 
-    if inicio:
+    if not final:
         print(f'Suas cartas são: {cartas_jogador}')
         print(f'A primeira carta da máquina é: {cartas_maquina[0]}')
     else:
@@ -79,8 +79,8 @@ def continua_jogando(cartas_jogador, cartas_maquina):
     '''
     opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.\n')
     while opcao == 's':
-        armazena_cartas(inicio=False, final=False)
-        mostra_cartas(cartas_jogador, cartas_maquina, inicio=False)
+        armazena_cartas(cartas_jogador, cartas_maquina, inicio=False, final=False)
+        mostra_cartas(cartas_jogador, cartas_maquina, final=False)
         if sum(cartas_jogador) == 21 or sum(cartas_maquina) == 21:
             checa_pontos()
             acaba_jogo()
@@ -96,7 +96,8 @@ def continua_jogando(cartas_jogador, cartas_maquina):
             acaba_jogo()
             break
     if opcao == 'n':
-        armazena_cartas(inicio=False, final=True)
+        armazena_cartas(cartas_jogador, cartas_maquina, inicio=False, final=True)
+        mostra_cartas(cartas_jogador, cartas_maquina, final=True)
         checa_pontos(cartas_jogador, cartas_maquina)
         acaba_jogo()
 
