@@ -19,11 +19,29 @@ def armazena_cartas(cartas_jogador, cartas_maquina, inicio, final):
         for i in range(2):
             cartas_jogador.append(seleciona_cartas())
             cartas_maquina.append(seleciona_cartas())
+            troca_cartas(cartas_jogador, cartas_maquina)
     elif final:
         while sum(cartas_maquina) < 17:
             cartas_maquina.append(seleciona_cartas())
+            troca_cartas(cartas_jogador, cartas_maquina)
     else:
         cartas_jogador.append(seleciona_cartas())
+        troca_cartas(cartas_jogador, cartas_maquina)
+
+
+def troca_cartas(cartas_jogador, cartas_maquina):
+    '''
+    Quando o usuário receber um 11 (equivalente ao ás) e possuir
+    mais de 21 pontos. Esse valor será substituido por 1 ponto.
+    '''
+
+    if sum(cartas_jogador) > 21 and 11 in cartas_jogador:
+        cartas_jogador.remove(11)
+        cartas_jogador.append(1)
+    elif sum(cartas_maquina) > 21 and 11 in cartas_maquina:
+        cartas_maquina.remove(11)
+        cartas_maquina.append(1)
+
             
 def seleciona_cartas():
     '''
@@ -60,21 +78,21 @@ def checa_pontos(cartas_jogador, cartas_maquina):
     '''
     Checa as possibilidades de vitória ou derrota dos jogadores.
     '''
-
     if sum(cartas_jogador) == 21:
-        print(f'Parabéns, Você ganhou! Você possui {sum(cartas_jogador)}, enquanto a máquina possui apenas {sum(cartas_maquina)}.')
+        print(f'Parabéns, Você ganhou! Você possui {sum(cartas_jogador)} pontos, enquanto a máquina possui apenas {sum(cartas_maquina)} -> {cartas_maquina}.')
     elif sum(cartas_maquina) == 21:
-        print(f'A máquina atingiu {sum(cartas_maquina)}. Você perdeu!')
+        print(f'Você perdeu! A máquina atingiu {sum(cartas_maquina)}.')
     elif sum(cartas_jogador) > 21:
-        print(f'Você atingiu {sum(cartas_jogador)}, e consequentemente perdeu!')
+        print(f'Você atingiu {sum(cartas_jogador)} pontos, e consequentemente perdeu!')
     elif sum(cartas_maquina) > 21:
-        print(f'A máquina atingiu {sum(cartas_maquina)}. Você ganhou!')
-    elif sum(cartas_jogador) < sum(cartas_maquina):
-        print(f'Você atingiu {sum(cartas_jogador)}. O vencedor foi a máquina, com {sum(cartas_maquina)}')
+        print(f'Parabéns, você ganhou! A máquina atingiu {sum(cartas_maquina)} pontos.')
     elif sum(cartas_jogador) == sum(cartas_maquina):
-        print(f'Ambos possuem {cartas_jogador}, o jogo termina com um empate.')
-    else:
-        print(f'Parabéns, Você ganhou! Você possui {sum(cartas_jogador)}, enquanto a máquina possui apenas {sum(cartas_maquina)}.')
+        print(f'Ambos possuem {sum(cartas_jogador)} pontos, o jogo termina com um empate.')
+    elif sum(cartas_jogador) > sum(cartas_maquina):
+        print(f'Parabéns, Você ganhou! Você possui {sum(cartas_jogador)} pontos, enquanto a máquina possui apenas {sum(cartas_maquina)}.')
+    elif sum(cartas_jogador) < sum(cartas_maquina):
+        print(f'Você atingiu {sum(cartas_jogador)} pontos. O vencedor foi a máquina, com {sum(cartas_maquina)}')
+
 
 
 
@@ -84,7 +102,7 @@ def continua_jogando(cartas_jogador, cartas_maquina):
     e será impressa para o jogador. Caso contrário, o resultado
     será impresso.
     '''
-    opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.\n')
+    opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.\n').lower()
     while opcao == 's':
         armazena_cartas(cartas_jogador, cartas_maquina, inicio=False, final=False)
         mostra_cartas(cartas_jogador, cartas_maquina, final=False)
@@ -95,7 +113,7 @@ def continua_jogando(cartas_jogador, cartas_maquina):
             acaba_jogo()
             break
         elif sum(cartas_maquina) < 21 or sum(cartas_jogador) < 21:
-            opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.\n')
+            opcao = input('Deseja continuar jogando? Digite "s" para sim, ou "n" para não.\n').lower()
         else:
             acaba_jogo()
             break

@@ -19,7 +19,10 @@ def blackjack():
         print(logo)
         functions.armazena_cartas(functions.cartas_jogador, functions.cartas_maquina, inicio=True, final=False)
         functions.mostra_cartas(functions.cartas_jogador, functions.cartas_maquina, final=False)
-        functions.continua_jogando(functions.cartas_jogador, functions.cartas_maquina)
+        if sum(functions.cartas_jogador) == 21:
+            functions.acaba_jogo()
+        else:
+            functions.continua_jogando(functions.cartas_jogador, functions.cartas_maquina)
     else:
         print('Opção inválida.')
         sleep(2)
