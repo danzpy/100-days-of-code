@@ -15,18 +15,21 @@ def advinhando():
     numero_selecionado = functions.selecionando_numero()
     print(numero_selecionado)
     dificuldade = functions.nivel_dificuldade()
-    tentativas_restantes = functions.tentativas(dificuldade)
-    print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
-    palpite = functions.tentando_acertar(numero_selecionado)
-    if palpite == numero_selecionado:
-        functions.acaba_jogo()
+    if not (dificuldade == 'f' or dificuldade == 'd'):
+        functions.log_erro()
     else:
-        while tentativas_restantes != 0:
-            tentativas_restantes -= 1
-            print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
-            palpite = functions.tentando_acertar(numero_selecionado)
-            if palpite == numero_selecionado:
-                break
-        functions.acaba_jogo()
+        tentativas_restantes = functions.tentativas(dificuldade)
+        print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
+        palpite = functions.tentando_acertar(numero_selecionado)
+        if palpite == numero_selecionado:
+            functions.acaba_jogo()
+        else:
+            while tentativas_restantes != 0:
+                tentativas_restantes -= 1
+                print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
+                palpite = functions.tentando_acertar(numero_selecionado)
+                if palpite == numero_selecionado:
+                    break
+            functions.acaba_jogo()
 
 advinhando()

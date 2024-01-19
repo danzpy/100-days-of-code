@@ -6,7 +6,7 @@ def log_erro():
     Exibe uma mensagem de erro informando que o valor selecionado está incorreto.
     """
     print('Valor selecionado está incorreto. Tente novamente.')
-    sleep(2)
+
 
 def selecionando_numero():
     """
@@ -49,8 +49,6 @@ def tentativas(dificuldade):
         tentativas += 5
     else:
         log_erro()
-        sleep(2)
-        nivel_dificuldade()
 
     return tentativas
 
