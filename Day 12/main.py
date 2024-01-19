@@ -13,16 +13,20 @@ fácil, com 10 tentativas.
 def advinhando():
     print('Bem vindo ao jogo da advinhação!\nEstou pensando em um número de 0 a 100.')
     numero_selecionado = functions.selecionando_numero()
+    print(numero_selecionado)
     dificuldade = functions.nivel_dificuldade()
     tentativas_restantes = functions.tentativas(dificuldade)
     print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
-    functions.tentando_acertar(numero_selecionado)
-    while tentativas_restantes != 0:
-        tentativas_restantes -= 1
-        print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
-        palpite = functions.tentando_acertar(numero_selecionado)
-        if palpite == numero_selecionado:
-            break
-    functions.acaba_jogo()
+    palpite = functions.tentando_acertar(numero_selecionado)
+    if palpite == numero_selecionado:
+        functions.acaba_jogo()
+    else:
+        while tentativas_restantes != 0:
+            tentativas_restantes -= 1
+            print(f'Você tem {tentativas_restantes} tentativas restantes!\n')
+            palpite = functions.tentando_acertar(numero_selecionado)
+            if palpite == numero_selecionado:
+                break
+        functions.acaba_jogo()
 
 advinhando()
