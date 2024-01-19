@@ -1,0 +1,78 @@
+# functions.py
+
+from random import choice
+from time import sleep
+
+def log_erro():
+    print('Valor selecionado está incorreto. Tente novamente.')
+    sleep(2)
+
+def selecionando_numero():
+    numeros = [num for num in range(101)]
+    selecionado = choice(numeros)
+    return selecionado
+
+def nivel_dificuldade():
+    dificuldade = input('Escolha a dificuldade. Digite "f" para fácil e "d" para dificil: ').lower()
+    return dificuldade
+
+def tentando_acertar(selecionado, tentativas_restantes):
+    while tentativas_restantes != 0:
+        print(f'Você tem {tentativas_restantes} tentativas restantes!')
+        palpite = int(input('Tente advinhar o número: '))
+        
+        if palpite != selecionado:
+            verificando_palpite(palpite, selecionado)
+            tentativas_restantes -= 1
+        else:
+            print('Você acertou!')
+            break
+
+        if tentativas_restantes == 0:
+            acaba_jogo()
+
+def tentativas(dificuldade):
+    tentativas = 0
+    if dificuldade == 'f':
+        tentativas += 10
+    elif dificuldade == 'd':
+        tentativas += 5
+    else:
+        log_erro()
+        sleep(2)
+        tentativas = nivel_dificuldade()  # corrigido aqui
+    return tentativas
+
+def verificando_palpite(palpite, selecionado):
+    if palpite < selecionado - 50:
+        print('O valor escolhido está muito abaixo do número selecionado por mim.\nTente novamente!')
+        errou_palpite()
+    elif palpite < selecionado:
+        print('O valor selecionado está abaixo do número selecionado por mim.')
+        errou_palpite()
+    elif palpite > selecionado + 50:
+        print('O valor escolhido está muito acima do número selecionado por mim.\nTente novamente!')
+        errou_palpite()
+    elif palpite > selecionado:
+        print('O valor escolhido está acima do número selecionado por mim.\nTente novamente!')
+        errou_palpite()
+    else:
+        print(f'Parabéns, você acertou! O número que escolhi foi {selecionado}')
+
+def errou_palpite():
+    sleep(1)
+    tentando_acertar()
+
+def acaba_jogo():
+    print('Suas tentativas acabaram. Obrigado por jogar!')
+
+# main.py
+
+def advinhando():
+    print('Bem-vindo ao jogo da advinhação!\nEstou pensando em um número de 0 a 100.')
+    numero_selecionado = selecionando_numero()
+    dificuldade = nivel_dificuldade()
+    tentativas_restantes = tentativas(dificuldade)
+    tentando_acertar(numero_selecionado, tentativas_restantes)
+
+advinhando()

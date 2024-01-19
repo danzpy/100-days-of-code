@@ -12,33 +12,27 @@ def selecionando_numero():
 
     return selecionado
 
-def tentando_acertar(tentativas, selecionado):
+def nivel_dificuldade():
+        
+    dificuldade = input('Escolha a dificuldade. Digite "f" para fácil e "d" para dificil: ').lower()
 
-    print(f'Você tem {tentativas} tentativas restantes para advinhar o número.')
+    return dificuldade
+    
+
+def tentando_acertar(selecionado):
+
     palpite = int(input('Tente advinhar o número: '))
 
-    if palpite != selecionado and tentativas != 0:
-        verificando_palpite(palpite, selecionado, tentativas)
-    elif palpite != selecionado and tentativas == 0:
-        acaba_jogo()
+    if palpite != selecionado:
+        verificando_palpite(selecionado, palpite)
     else:
         print('Você acertou!')
 
+    return palpite
 
-def nivel_dificuldade():
-    
-    tentativas = 0
-
-    dificuldade = input('Escolha a dificuldade. Digite "f" para fácil e "d" para dificil: ').lower()
-    tentativas()
-
-    return dificuldade
-
-def tentativas():
+def tentativas(dificuldade):
 
     tentativas = 0
-    
-    dificuldade = nivel_dificuldade()
 
     if dificuldade == 'f':
         tentativas += 10
@@ -49,34 +43,17 @@ def tentativas():
         sleep(2)
         nivel_dificuldade()
 
-    print(f'Você tem {tentativas} tentativas disponíveis!')
-    
     return tentativas
 
+def verificando_palpite(selecionado, palpite):
 
-
-def errou_palpite(tentativas_restantes):
-
-    tentativas_restantes -= 1
-    sleep(1)
-    tentando_acertar(tentativas)
-
-def verificando_palpite(palpite, selecionado, tentativas):
-
-    if palpite < selecionado and selecionado - palpite > 50:
-        print('O valor escolhido está muito abaixo do número selecionado por mim.\nTente novamente!')
-        errou_palpite(tentativas)
-    elif palpite < selecionado and selecionado - palpite < 50:
-        print('O valor selecionado está abaixo do número selecionado por mim.')
-        errou_palpite(tentativas)
-    elif palpite > selecionado and palpite - selecionado > 50:
-        print('O valor escolhido está muito acima do número selecionado por mim.\nTente novamente!')
-    elif palpite > selecionado and palpite - selecionado < 50:
-        print('O valor escolhido está acima do número selecionado por mim.\nTente novamente!')
+    if palpite < selecionado:
+        print('O valor escolhido está abaixo do número selecionado por mim.\nTente novamente!\n')
+    elif palpite > selecionado:
+        print('O valor selecionado está acima do número selecionado por mim.\nTente novamente!\n')
     else:
         print(f'Parabéns, você acertou! O número que escolhi foi {selecionado}')
 
-
 def acaba_jogo():
-    print('Sua tentativas acabaram. Obrigado por jogar!')
+    print('Obrigado por jogar!')
 
