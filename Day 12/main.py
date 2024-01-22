@@ -1,3 +1,6 @@
+# Ao analisar o código proposto pela instrutora. Percebi que criei funções desnecessárias para o código. Sendo assim,
+# pretendo refatorar este código no futuro.
+
 import functions
 
 """
