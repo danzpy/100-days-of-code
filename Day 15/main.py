@@ -1,12 +1,21 @@
 from data import MENU, resources, money
 
-def valida_resposta(response, function_true, function_false):
+def opcoes_resposta(response, opt1, opt2):
     if response == 1:
-        function_true()
+        opt = opt1()
     elif response == 2:
-        function_false()
+        opt = opt2()
     else:
         print('\nResposta inválida. Tente novamente.')
+    
+    return opt
+
+def valida_resposta(response, desejavel, opt1, opt2):
+    if response == desejavel or response in (list(response)):
+        print(response)
+        opt1()
+    else:
+        opt2()
 
 def deseja_continuar():
     response = int(input('\nDeseja continuar? \n\nDigite 1 para sim.\nDigite 2 para não.\n\n'))
@@ -20,7 +29,7 @@ def acoes_usuario():
     return response
 
 def tipo_cafe():
-    response = input('Qual o café você deseja? (espresso/latte/cappuccino)\n\n')
+    response = input('\nQual o café você deseja? (espresso/latte/cappuccino)\n\n')
     return response
 
 def recursos():
@@ -29,10 +38,20 @@ def recursos():
     print(f'Café: {list(resources.values())[2]}g')
     print(f'Dinheiro: ${money['value']}\n')
 
+def insira_moedas():
+    print('Por favor, insira as moedas.')
+    um_cent = int(input('Quantas moedas de um centavo? '))
+    cinco_cent = int(input('Quantas moedas de cinco centavos? '))
+    dez_cents = int(input('Quantas moedas de dez centavos? '))
+    vinte_cinco_cent = int(input('Quantas moedas de vinte e cinco centavos? '))
+
+    total = um_cent * 1 + cinco_cent * 5 + dez_cents * 10 + vinte_cinco_cent * 25
+    print(f'{total} inseridos')
+
+
 def main():
     resposta_acao = acoes_usuario()
-    valida_resposta(resposta_acao, recursos, tipo_cafe)
-    continua = deseja_continuar()
-    valida_resposta(continua, recursos, agradece)
+    resposta = opcoes_resposta(resposta_acao, recursos, tipo_cafe)
+    valida_resposta(resposta, None, deseja_continuar, insira_moedas)
 
 main()
