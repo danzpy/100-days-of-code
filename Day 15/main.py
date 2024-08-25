@@ -54,4 +54,6 @@ def main():
     resposta = opcoes_resposta(resposta_acao, recursos, tipo_cafe)
     valida_resposta(resposta, None, deseja_continuar, insira_moedas)
 
+
+## COMEÇAR PELO SIMPLES E DEPOIS MODULARIZAR
 main()
