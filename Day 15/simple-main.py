@@ -1,6 +1,5 @@
 from data import MENU, resources, money
 
-
 agua = resources['water']
 leite = resources['milk']
 cafe = resources['coffee']
@@ -14,8 +13,10 @@ def primeira_pergunta():
         primeira_pergunta()
     elif pergunta == 2:
         tipo_cafe()
+    elif pergunta == 'off':
+        desliga()
     else:
-        print('Opção inválida. Tente novamente')
+        opcao_invalida()
 
 def recursos():
     global agua, leite, cafe, dinheiro
@@ -30,32 +31,43 @@ def tipo_cafe():
     
     tipo_cafe = input('\nQual o café você deseja? (espresso/latte/cappuccino)\n\n')
 
-    preco_cafe = MENU[tipo_cafe]['cost']
-    qtd_leite = MENU[tipo_cafe]['ingredients']['milk']
-    qtd_cafe = MENU[tipo_cafe]['ingredients']['coffee']
-    qtd_agua = MENU[tipo_cafe]['ingredients']['water']
+    if tipo_cafe in ['espresso', 'latte', 'capuccino']:
+        qtd_leite = MENU[tipo_cafe]['ingredients']['milk']
+        qtd_cafe = MENU[tipo_cafe]['ingredients']['coffee']
+        qtd_agua = MENU[tipo_cafe]['ingredients']['water']
 
-    dinheiro += preco_cafe
-    total = insira_moedas()
-    
-    checa_suprimentos(preco_cafe, qtd_cafe, qtd_leite, qtd_agua, total)
 
-    leite -= qtd_leite
-    cafe -= qtd_cafe
-    agua -= qtd_agua
+        if checa_suprimentos(qtd_cafe, qtd_leite, qtd_agua):
+            if insira_moedas(tipo_cafe):
+                print(f'Aqui está seu {tipo_cafe}, aproveite!\n')
 
-def checa_suprimentos(preco, qtd_cafe, qtd_leite, qtd_agua, inserido):
+                leite -= qtd_leite
+                cafe -= qtd_cafe
+                agua -= qtd_agua
+    else:
+        opcao_invalida()
 
-    necessarios = [preco, qtd_leite, qtd_cafe, qtd_agua]
-    disponiveis = {'dinheiro': inserido, 'leite': leite, 'café': cafe, 'água': agua}
+    primeira_pergunta()
 
-    for index in range(0, 4):
+def checa_suprimentos(qtd_cafe, qtd_leite, qtd_agua):
+
+    suficiente = True
+
+    necessarios = [qtd_leite, qtd_cafe, qtd_agua]
+    disponiveis = {'leite': leite, 'café': cafe, 'água': agua}
+
+    for index in range(0, 3):
         if list(disponiveis.values())[index] < necessarios[index]:
-            print(f'{list(disponiveis.keys())[index]} -> Necessário ({necessarios[index]}) / Disponível {list(disponiveis.values())[index]}')
             print(f'Não há {list(disponiveis.keys())[index]} disponível para ser utilizado.')
+            suficiente = False
 
-def insira_moedas():
+    return suficiente
+
+def insira_moedas(tipo_cafe):
     global dinheiro
+
+    preco_cafe = MENU[tipo_cafe]['cost']
+    suficiente = True
 
     print('\nPor favor, insira as moedas.')
     um_cent = int(input('Quantas moedas de um centavo? '))
@@ -64,13 +76,24 @@ def insira_moedas():
     vinte_cinco_cent = int(input('Quantas moedas de vinte e cinco centavos? '))
 
     total = (um_cent * 1 + cinco_cent * 5 + dez_cents * 10 + vinte_cinco_cent * 25) / 100
-    troco = total - dinheiro
+    if total > preco_cafe:
+        troco = total - preco_cafe
+        dinheiro += preco_cafe
+        print(f'Aqui está seu troco: R${troco}')
+    else:
+        print('Você não possui dinheiro suficiente...')
+        suficiente = False
 
-    print(f'Aqui está seu troco: R${troco}')
-
-    return total
+    return suficiente
 
 def agradece():
     print('\nObrigado por utilizar nossos serviços.')
+
+def opcao_invalida():
+    print('Opção inválida, tente novamente...')
+
+def desliga():
+    print('Desligando a máquina...')
+    agradece()
 
 primeira_pergunta()
