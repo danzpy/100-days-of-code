@@ -1,59 +1,99 @@
 from data import MENU, resources, money
 
-def opcoes_resposta(response, opt1, opt2):
-    if response == 1:
-        opt = opt1()
-    elif response == 2:
-        opt = opt2()
+agua = resources['water']
+leite = resources['milk']
+cafe = resources['coffee']
+dinheiro = money['value']
+
+def primeira_pergunta():
+    pergunta = int(input('O que você deseja?\n\nDigite 1 para report.\nDigite 2 para escolher sua bebida.\n\n'))
+
+    if pergunta == 1:
+        recursos()
+        primeira_pergunta()
+    elif pergunta == 2:
+        tipo_cafe()
+    elif pergunta == 'off':
+        desliga()
     else:
-        print('\nResposta inválida. Tente novamente.')
-    
-    return opt
-
-def valida_resposta(response, desejavel, opt1, opt2):
-    if response == desejavel or response in (list(response)):
-        print(response)
-        opt1()
-    else:
-        opt2()
-
-def deseja_continuar():
-    response = int(input('\nDeseja continuar? \n\nDigite 1 para sim.\nDigite 2 para não.\n\n'))
-    return response
-
-def agradece():
-    print('\nObrigado por utilizar nossos serviços.')
-
-def acoes_usuario():
-    response = int(input('Bem vindo! Qual ação deseja realizar?\n\nDigite 1 para verificar o status da máquina.\nDigite 2 para solicitar sua bebida.\n\n'))
-    return response
-
-def tipo_cafe():
-    response = input('\nQual o café você deseja? (espresso/latte/cappuccino)\n\n')
-    return response
+        opcao_invalida()
 
 def recursos():
-    print(f'\nÁgua: {list(resources.values())[0]}ml')
-    print(f'Leite: {list(resources.values())[1]}ml')
-    print(f'Café: {list(resources.values())[2]}g')
-    print(f'Dinheiro: ${money['value']}\n')
+    global agua, leite, cafe, dinheiro
 
-def insira_moedas():
-    print('Por favor, insira as moedas.')
+    print(f'\nÁgua: {agua}ml')
+    print(f'Leite: {leite}ml')
+    print(f'Café: {cafe}g')
+    print(f'Dinheiro: ${dinheiro}\n')
+
+def tipo_cafe():
+    global dinheiro, leite, agua, cafe
+    
+    tipo_cafe = input('\nQual o café você deseja? (espresso/latte/cappuccino)\n\n')
+
+    if tipo_cafe in ['espresso', 'latte', 'capuccino']:
+        qtd_leite = MENU[tipo_cafe]['ingredients']['milk']
+        qtd_cafe = MENU[tipo_cafe]['ingredients']['coffee']
+        qtd_agua = MENU[tipo_cafe]['ingredients']['water']
+
+        if checa_suprimentos(qtd_cafe, qtd_leite, qtd_agua):
+            if insira_moedas(tipo_cafe):
+                print(f'Aqui está seu {tipo_cafe}, aproveite!\n')
+
+                leite -= qtd_leite
+                cafe -= qtd_cafe
+                agua -= qtd_agua
+    else:
+        opcao_invalida()
+
+    primeira_pergunta()
+
+def checa_suprimentos(qtd_cafe, qtd_leite, qtd_agua):
+
+    suficiente = True
+
+    necessarios = [qtd_leite, qtd_cafe, qtd_agua]
+    disponiveis = {'leite': leite, 'café': cafe, 'água': agua}
+
+    for index in range(0, 3):
+        if list(disponiveis.values())[index] < necessarios[index]:
+            print(f'Não há {list(disponiveis.keys())[index]} disponível para ser utilizado.')
+            suficiente = False
+
+    return suficiente
+
+def insira_moedas(tipo_cafe):
+    global dinheiro
+
+    preco_cafe = MENU[tipo_cafe]['cost']
+    suficiente = True
+
+    print('\nPor favor, insira as moedas.')
     um_cent = int(input('Quantas moedas de um centavo? '))
     cinco_cent = int(input('Quantas moedas de cinco centavos? '))
     dez_cents = int(input('Quantas moedas de dez centavos? '))
     vinte_cinco_cent = int(input('Quantas moedas de vinte e cinco centavos? '))
 
-    total = um_cent * 1 + cinco_cent * 5 + dez_cents * 10 + vinte_cinco_cent * 25
-    print(f'{total} inseridos')
+    total = (um_cent * 1 + cinco_cent * 5 + dez_cents * 10 + vinte_cinco_cent * 25) / 100
+    
+    if total > preco_cafe:
+        troco = total - preco_cafe
+        dinheiro += preco_cafe
+        print(f'Aqui está seu troco: R${troco}')
+    else:
+        print('Você não possui dinheiro suficiente...')
+        suficiente = False
 
+    return suficiente
 
-def main():
-    resposta_acao = acoes_usuario()
-    resposta = opcoes_resposta(resposta_acao, recursos, tipo_cafe)
-    valida_resposta(resposta, None, deseja_continuar, insira_moedas)
+def agradece():
+    print('\nObrigado por utilizar nossos serviços.')
 
+def opcao_invalida():
+    print('Opção inválida, tente novamente...')
 
-## COMEÇAR PELO SIMPLES E DEPOIS MODULARIZAR
-main()
+def desliga():
+    print('Desligando a máquina...')
+    agradece()
+
+primeira_pergunta()
